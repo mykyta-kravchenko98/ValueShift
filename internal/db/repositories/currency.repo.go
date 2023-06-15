@@ -26,6 +26,7 @@ type CurrencySnapshotDataService interface {
 	Create(ctx context.Context, currencySnapshot models.CurrencySnapshot) (models.CurrencySnapshot, error)
 	GetByDate(ctx context.Context, date string) ([]models.CurrencySnapshot, error)
 	GetFirstExistCurrency(ctx context.Context, lables ...string) (models.CurrencySnapshot, error)
+	DeleteById(ctx context.Context, id string) (int64, error)
 }
 
 func NewCurrencySnapshotDataService(db database.MongoDatabase) CurrencySnapshotDataService {
@@ -148,6 +149,25 @@ func (currSnapDataSvc *currencyRepository) GetFirstExistCurrency(ctx context.Con
 	}
 
 	return result, nil
+}
+
+func (currSnapDataSvc *currencyRepository) DeleteById(ctx context.Context, id string) (int64, error) {
+	if vErr := validate(currSnapDataSvc.collection); vErr != nil {
+		return 0, vErr
+	}
+
+	docID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return 0, errors.New("bad request")
+	}
+	filter := bson.D{primitive.E{Key: "_id", Value: docID}}
+
+	res, error := currSnapDataSvc.collection.DeleteOne(ctx, filter)
+	if error != nil {
+		return 0, error
+	}
+
+	return res.DeletedCount, nil
 }
 
 func validate(collection *mongo.Collection) error {

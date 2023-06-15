@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"time"
 	"valueShift/internal/configs"
 	"valueShift/internal/db/repositories"
 	"valueShift/internal/models"
+	"valueShift/pkg/clients/rest"
 )
 
 type currencyService struct {
@@ -21,13 +21,8 @@ type CurrencyService interface {
 }
 
 var (
-	defaultClient *http.Client
-	config        *configs.Config
+	config *configs.Config
 )
-
-func init() {
-	defaultClient = &http.Client{}
-}
 
 func NewCurrencySnapshotDataService(svc repositories.CurrencySnapshotDataService) CurrencyService {
 	image := &currencyService{
@@ -57,7 +52,7 @@ func (currSvc *currencyService) getCurrencySnapshot(inputCurrencyLable, outputCu
 
 	url := fmt.Sprintf("%s/%s/latest/%s", config.ExchangeApi.URL, config.ExchangeApi.ApiKey, inputCurrencyLable)
 
-	resp, err := defaultClient.Get(url)
+	resp, err := rest.Get(url)
 	if err != nil {
 		return models.CurrencySnapshot{}, err
 	}

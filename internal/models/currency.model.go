@@ -21,6 +21,9 @@ func (currencySnapshot *CurrencySnapshot) Converting(inputCurrencyLable, outputC
 	if value <= 0 {
 		return -1, errors.New("Value can not be less or equel to zero.")
 	}
+	if inputCurrencyLable == "" || outputCurrencyLable == "" {
+		return -1, errors.New("Currency lable can`t be empty")
+	}
 
 	if inputCurrencyLable == currencySnapshot.Lable {
 		rate, err := currencySnapshot.parseMap(outputCurrencyLable)

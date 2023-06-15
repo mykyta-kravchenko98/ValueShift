@@ -57,7 +57,6 @@ func NewMongoManager(dbName, connUrl string) (MongoManager, error) {
 			}
 		}
 	})
-
 	return dbMng, connErr
 }
 
