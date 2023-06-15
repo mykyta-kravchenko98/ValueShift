@@ -7,6 +7,8 @@ import (
 	database "valueShift/internal/db"
 	"valueShift/internal/models"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -21,9 +23,9 @@ const (
 )
 
 type CurrencySnapshotDataService interface {
-	Create(ctx context.Context, currencySnapshot models.CurrencySnapshot) (*mongo.InsertOneResult, error)
+	Create(ctx context.Context, currencySnapshot models.CurrencySnapshot) (models.CurrencySnapshot, error)
 	GetByDate(ctx context.Context, date string) ([]models.CurrencySnapshot, error)
-	GetByCurrency(ctx context.Context, lable string) (models.CurrencySnapshot, error)
+	GetFirstExistCurrency(ctx context.Context, lables ...string) (models.CurrencySnapshot, error)
 }
 
 func NewCurrencySnapshotDataService(db database.MongoDatabase) CurrencySnapshotDataService {
@@ -38,16 +40,25 @@ type currencyRepository struct {
 	collection *mongo.Collection
 }
 
-func (currSnapDataSvc *currencyRepository) Create(ctx context.Context, currencySnap models.CurrencySnapshot) (*mongo.InsertOneResult, error) {
+func (currSnapDataSvc *currencyRepository) Create(ctx context.Context, currencySnap models.CurrencySnapshot) (models.CurrencySnapshot, error) {
 	if vErr := validate(currSnapDataSvc.collection); vErr != nil {
-		return nil, vErr
+		return currencySnap, vErr
 	}
 
 	result, err := currSnapDataSvc.collection.InsertOne(ctx, currencySnap)
 	if err != nil {
-		return nil, err
+		return currencySnap, err
 	}
-	return result, nil
+
+	uid, ok := result.InsertedID.(primitive.ObjectID)
+
+	if !ok {
+		return currencySnap, errors.New("Error during extracting ObjectID")
+	}
+
+	currencySnap.Id = primitive.ObjectID(uid)
+
+	return currencySnap, nil
 }
 
 func (currSnapDataSvc *currencyRepository) GetByDate(ctx context.Context, date string) ([]models.CurrencySnapshot, error) {
@@ -98,17 +109,13 @@ func (currSnapDataSvc *currencyRepository) GetByDate(ctx context.Context, date s
 	return result, nil
 }
 
-func (currSnapDataSvc *currencyRepository) GetByCurrency(ctx context.Context, lable string) (models.CurrencySnapshot, error) {
+func (currSnapDataSvc *currencyRepository) GetFirstExistCurrency(ctx context.Context, lables ...string) (models.CurrencySnapshot, error) {
 	if vErr := validate(currSnapDataSvc.collection); vErr != nil {
 		return models.CurrencySnapshot{}, vErr
 	}
 
 	today := time.Now()
 	dateFrom := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, time.UTC)
-	// dateFrom, err := time.Parse("01/02/2006", time.Now().UTC().Format("01/02/2006"))
-	// if err != nil {
-	// 	return models.CurrencySnapshot{}, err
-	// }
 
 	filter := bson.D{
 		{
@@ -121,8 +128,13 @@ func (currSnapDataSvc *currencyRepository) GetByCurrency(ctx context.Context, la
 			},
 		},
 		{
-			Key:   "lable",
-			Value: lable,
+			Key: "lable",
+			Value: bson.D{
+				{
+					Key:   "$in",
+					Value: lables,
+				},
+			},
 		},
 	}
 	var result models.CurrencySnapshot
