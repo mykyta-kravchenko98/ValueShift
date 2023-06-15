@@ -16,7 +16,8 @@ type currencyService struct {
 }
 
 type CurrencyService interface {
-	GetCurrencySnapshot(lable string) (models.CurrencySnapshot, error)
+	getCurrencySnapshot(inputCurrencyLable, outputCurrencyLable string) (models.CurrencySnapshot, error)
+	Converting(inputCurrencyLable, outputCurrencyLable string, value float64) (float64, error)
 }
 
 var (
@@ -36,12 +37,12 @@ func NewCurrencySnapshotDataService(svc repositories.CurrencySnapshotDataService
 	return image
 }
 
-func (currSvc *currencyService) GetCurrencySnapshot(lable string) (result models.CurrencySnapshot, err error) {
+func (currSvc *currencyService) getCurrencySnapshot(inputCurrencyLable, outputCurrencyLable string) (result models.CurrencySnapshot, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()
 
 	//Searching in DB
-	result, err = currSvc.currencySnapshotRepository.GetByCurrency(ctx, lable)
+	result, err = currSvc.currencySnapshotRepository.GetFirstExistCurrency(ctx, inputCurrencyLable, outputCurrencyLable)
 	if err != nil && err != repositories.ErrNoDocuments {
 		return result, err
 	}
@@ -54,8 +55,7 @@ func (currSvc *currencyService) GetCurrencySnapshot(lable string) (result models
 		config = configs.GetConfig()
 	}
 
-	url := fmt.Sprintf("%s/%s/latest/%s", config.ExchangeApi.URL, config.ExchangeApi.ApiKey, lable)
-	fmt.Println(url)
+	url := fmt.Sprintf("%s/%s/latest/%s", config.ExchangeApi.URL, config.ExchangeApi.ApiKey, inputCurrencyLable)
 
 	resp, err := defaultClient.Get(url)
 	if err != nil {
@@ -69,9 +69,19 @@ func (currSvc *currencyService) GetCurrencySnapshot(lable string) (result models
 	}
 
 	//Saving in DB request result
-	uid, err := currSvc.currencySnapshotRepository.Create(ctx, result)
+	result, err = currSvc.currencySnapshotRepository.Create(ctx, result)
 
-	fmt.Println(uid)
+	return result, err
+}
+
+func (currSvc *currencyService) Converting(inputCurrencyLable, outputCurrencyLable string, value float64) (float64, error) {
+	snapshot, err := currSvc.getCurrencySnapshot(inputCurrencyLable, outputCurrencyLable)
+
+	if err != nil {
+		return -1, err
+	}
+
+	result, err := snapshot.Converting(inputCurrencyLable, outputCurrencyLable, value)
 
 	return result, err
 }
