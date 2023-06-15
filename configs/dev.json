@@ -1,0 +1,9 @@
+{
+    "exchange-api":{
+        "api-key" : "your-api-key",
+        "url" : "https://v6.exchangerate-api.com/v6"
+    },
+    "mongo-db":{
+        "url" : "mongodb://127.0.0.1:27017/"
+    }
+}
