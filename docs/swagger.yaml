@@ -1,0 +1,43 @@
+basePath: /api/v1
+definitions:
+  ConvertDto:
+    properties:
+      input_currency_lable:
+        example: USD
+        type: string
+      output_currency_lable:
+        example: EUR
+        type: string
+      value:
+        example: 3000
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API that provide abuility to converting currencies
+  title: API for converting currencies
+  version: "1.0"
+paths:
+  /convert/:
+    post:
+      consumes:
+      - application/json
+      description: Used to convert one currency to another
+      operationId: Post
+      parameters:
+      - description: The body to do converting
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/ConvertDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Convert currency
+      tags:
+      - Fetch
+swagger: "2.0"

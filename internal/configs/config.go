@@ -13,9 +13,14 @@ type MongoDBConfig struct {
 	URL string `mapstructure:"url"`
 }
 
+type ServerConfig struct {
+	Port string `mapstructure:"port"`
+}
+
 type Config struct {
 	ExchangeApi ExchangeApiConfig `mapstructure:"exchange-api"`
 	MongoDB     MongoDBConfig     `mapstructure:"mongo-db"`
+	Server      ServerConfig      `mapstructure:"server"`
 }
 
 var (

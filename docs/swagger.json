@@ -1,0 +1,64 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API that provide abuility to converting currencies",
+        "title": "API for converting currencies",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/convert/": {
+            "post": {
+                "description": "Used to convert one currency to another",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Fetch"
+                ],
+                "summary": "Convert currency",
+                "operationId": "Post",
+                "parameters": [
+                    {
+                        "description": "The body to do converting",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ConvertDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ConvertDto": {
+            "type": "object",
+            "properties": {
+                "input_currency_lable": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "output_currency_lable": {
+                    "type": "string",
+                    "example": "EUR"
+                },
+                "value": {
+                    "type": "number",
+                    "example": 3000
+                }
+            }
+        }
+    }
+}
