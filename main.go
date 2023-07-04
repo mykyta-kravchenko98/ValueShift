@@ -4,14 +4,15 @@ import (
 	"log"
 	"os"
 	"time"
-	"valueShift/cmd/commands"
-	_ "valueShift/docs"
-	"valueShift/internal/configs"
-	"valueShift/internal/db"
-	"valueShift/internal/db/repositories"
-	"valueShift/internal/models"
-	"valueShift/internal/server"
-	"valueShift/internal/services"
+
+	"github.com/mykyta-kravchenko98/ValueShift/cmd/commands"
+	_ "github.com/mykyta-kravchenko98/ValueShift/docs"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/configs"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db/repositories"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/server"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
 )
 
 const (

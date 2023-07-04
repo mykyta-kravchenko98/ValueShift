@@ -9,12 +9,12 @@ import (
 	"os"
 	"testing"
 
-	"valueShift/internal/configs"
-	"valueShift/internal/db"
-	"valueShift/internal/db/repositories"
-	"valueShift/internal/services"
-	"valueShift/pkg/clients/rest"
-	"valueShift/pkg/clients/rest/mock"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/configs"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db/repositories"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
+	"github.com/mykyta-kravchenko98/ValueShift/pkg/clients/rest"
+	"github.com/mykyta-kravchenko98/ValueShift/pkg/clients/rest/mock"
 
 	"go.mongodb.org/mongo-driver/bson"
 

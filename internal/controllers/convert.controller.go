@@ -3,7 +3,8 @@ package controllers
 import (
 	"errors"
 	"net/http"
-	"valueShift/internal/services"
+
+	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
 
 	"github.com/gin-gonic/gin"
 )

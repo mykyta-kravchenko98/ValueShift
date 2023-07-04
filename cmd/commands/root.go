@@ -6,7 +6,7 @@ package commands
 import (
 	"os"
 
-	"valueShift/internal/services"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
 
 	"github.com/spf13/cobra"
 )

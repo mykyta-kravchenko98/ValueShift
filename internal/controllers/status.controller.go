@@ -5,8 +5,9 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"valueShift/internal/db"
-	"valueShift/internal/models"
+
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
 
 	"github.com/gin-gonic/gin"
 )

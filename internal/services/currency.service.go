@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
-	"valueShift/internal/configs"
-	"valueShift/internal/db/repositories"
-	"valueShift/internal/models"
-	"valueShift/pkg/clients/rest"
+
+	"github.com/mykyta-kravchenko98/ValueShift/internal/configs"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db/repositories"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
+	"github.com/mykyta-kravchenko98/ValueShift/pkg/clients/rest"
 )
 
 type currencyService struct {

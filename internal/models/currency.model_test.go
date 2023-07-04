@@ -2,7 +2,8 @@ package models_test
 
 import (
 	"testing"
-	"valueShift/internal/models"
+
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
 
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"

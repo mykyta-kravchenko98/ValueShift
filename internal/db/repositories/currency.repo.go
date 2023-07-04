@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"time"
-	database "valueShift/internal/db"
-	"valueShift/internal/models"
+
+	database "github.com/mykyta-kravchenko98/ValueShift/internal/db"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -19,7 +20,6 @@ var (
 
 const (
 	CurrencySnapshotCollections = "currencysnapshots"
-	PageSize                    = 100
 )
 
 type CurrencySnapshotDataService interface {

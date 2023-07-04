@@ -2,13 +2,14 @@ package server
 
 import (
 	"sync"
-	"valueShift/internal/configs"
-	"valueShift/internal/controllers"
-	"valueShift/internal/db"
-	"valueShift/internal/db/repositories"
-	"valueShift/internal/models"
-	"valueShift/internal/services"
-	"valueShift/util"
+
+	"github.com/mykyta-kravchenko98/ValueShift/internal/configs"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/controllers"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/db/repositories"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
+	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
+	"github.com/mykyta-kravchenko98/ValueShift/util"
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
