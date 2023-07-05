@@ -53,7 +53,7 @@ func (currSvc *currencyService) getCurrencySnapshot(inputCurrencyLable, outputCu
 
 	url := fmt.Sprintf("%s/%s/latest/%s", config.ExchangeApi.URL, config.ExchangeApi.ApiKey, inputCurrencyLable)
 
-	resp, err := rest.Get(url)
+	resp, err := rest.Get(url, nil)
 	if err != nil {
 		return models.CurrencySnapshot{}, err
 	}

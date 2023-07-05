@@ -18,10 +18,14 @@ func init() {
 	Client = &http.Client{}
 }
 
-func Get(url string) (*http.Response, error) {
+func Get(url string, headers http.Header) (*http.Response, error) {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if headers != nil {
+		request.Header = headers
 	}
 
 	resp, err := Client.Do(request)
@@ -41,6 +45,10 @@ func Post(url string, body interface{}, headers http.Header) (*http.Response, er
 	if err != nil {
 		return nil, err
 	}
-	request.Header = headers
+
+	if headers != nil {
+		request.Header = headers
+	}
+
 	return Client.Do(request)
 }
