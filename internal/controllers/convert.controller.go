@@ -4,31 +4,24 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/mykyta-kravchenko98/ValueShift/internal/models"
 	"github.com/mykyta-kravchenko98/ValueShift/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-type ConvertController struct {
+type convertController struct {
 	currencyService services.CurrencyService
 }
 
-func NewConvertController(svc services.CurrencyService) *ConvertController {
-	return &ConvertController{
+func NewConvertController(svc services.CurrencyService) *convertController {
+	return &convertController{
 		currencyService: svc,
 	}
 }
 
-// Dto for converting requests
-// ConvertDto  godoc
-type ConvertDto struct {
-	InputCurrencyLable  string  `json:"input_currency_lable" example:"USD"`
-	OutputCurrencyLable string  `json:"output_currency_lable" example:"EUR"`
-	Value               float64 `json:"value" example:"3000"`
-} // @name ConvertDto
-
 var (
-	BadRequest = errors.New("")
+	BadRequest = errors.New("Data is corrupted or not valid.")
 )
 
 // Post  godoc
@@ -41,8 +34,8 @@ var (
 // @Produce      json
 // @Success      200
 // @Router       /convert/ [post]
-func (convertController *ConvertController) Post(ctx *gin.Context) {
-	requestDto := ConvertDto{}
+func (convertController *convertController) Post(ctx *gin.Context) {
+	requestDto := models.ConvertDto{}
 
 	if err := ctx.BindJSON(&requestDto); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, err)
@@ -60,7 +53,7 @@ func (convertController *ConvertController) Post(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-func validateConvertDto(object ConvertDto) error {
+func validateConvertDto(object models.ConvertDto) error {
 	if object.InputCurrencyLable == "" {
 		return errors.New("input_currency_lable can`t be empty,")
 	}

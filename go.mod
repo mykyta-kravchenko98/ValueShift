@@ -3,6 +3,7 @@ module github.com/mykyta-kravchenko98/ValueShift
 go 1.20
 
 require (
+	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/pprof v1.4.0
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.4
@@ -38,6 +39,7 @@ require (
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
@@ -72,6 +74,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mykyta-kravchenko98/YahooFinanceScraperAPI v0.0.0-20230704104650-68b4ece597b8
+	github.com/rs/zerolog v1.29.1
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.16.0
 	go.mongodb.org/mongo-driver v1.12.0

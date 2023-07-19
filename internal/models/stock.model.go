@@ -5,17 +5,17 @@ import (
 )
 
 type Stock struct {
-	Symbol             string
-	Name               string
-	Price              float64
-	Change             float64
-	PercentChange      float64
-	Volume             string
-	AvgVolumeFor3Month string
-	MarketCap          string
-	PERatio            string
-	CreatedAt          string
-	CreatedUnix        int64
+	Symbol             string  `json:"symbol"`
+	Name               string  `json:"name"`
+	Price              float64 `json:"price"`
+	Change             float64 `json:"change"`
+	PercentChange      float64 `json:"percent_change"`
+	Volume             string  `json:"volume"`
+	AvgVolumeFor3Month string  `json:"avg_volume_for_3_month"`
+	MarketCap          string  `json:"marketCap"`
+	PERatio            string  `json:"pe_ratio"`
+	CreatedAt          string  `json:"created_at"`
+	CreatedUnix        int64   `json:"created_unix"`
 }
 
 func (stock *Stock) ProtoToDomain(proto *pb.Stocks) {

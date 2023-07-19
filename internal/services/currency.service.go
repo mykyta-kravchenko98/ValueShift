@@ -17,8 +17,8 @@ type currencyService struct {
 }
 
 type CurrencyService interface {
-	getCurrencySnapshot(inputCurrencyLable, outputCurrencyLable string) (models.CurrencySnapshot, error)
 	Converting(inputCurrencyLable, outputCurrencyLable string, value float64) (float64, error)
+	GetCurrencyList() (models.GetCurrencyListResponseDto, error)
 }
 
 var (
@@ -80,4 +80,20 @@ func (currSvc *currencyService) Converting(inputCurrencyLable, outputCurrencyLab
 	result, err := snapshot.Converting(inputCurrencyLable, outputCurrencyLable, value)
 
 	return result, err
+}
+
+func (currSvc *currencyService) GetCurrencyList() (models.GetCurrencyListResponseDto, error) {
+	snapshot, err := currSvc.getCurrencySnapshot("USD", "EUR")
+
+	if err != nil {
+		return models.GetCurrencyListResponseDto{}, err
+	}
+
+	lables := make([]string, 0, len(snapshot.ConversionRates))
+
+	for lable, _ := range snapshot.ConversionRates {
+		lables = append(lables, lable)
+	}
+
+	return models.GetCurrencyListResponseDto{Lables: lables}, err
 }
